@@ -24,20 +24,18 @@ export default function connectModal({ name, resolve, destroyOnHide = true }) {
       constructor(props, context) {
         super(props, context);
 
-        const { modal: { show } } = props;
-
-        this.state = { show };
+        this.state = { show: props.modal.get("show") };
       }
 
       componentWillReceiveProps(nextProps) {
         const { modal } = nextProps;
         const { store } = this.context;
 
-        if (isUndefined(modal.show)) {
+        if (isUndefined(modal.get("show"))) {
           return this.unmount();
         }
 
-        if (!modal.show) {
+        if (!modal.get("show")) {
           return destroyOnHide ? this.props.destroy(name) : this.hide();
         }
 
@@ -46,7 +44,7 @@ export default function connectModal({ name, resolve, destroyOnHide = true }) {
         }
 
         if (resolve) {
-          const resolveResult = resolve({ store, props: modal.props });
+          const resolveResult = resolve({ store, props: modal.get("props") });
           if (!isPromise(resolveResult)) {
             return this.show();
           }
