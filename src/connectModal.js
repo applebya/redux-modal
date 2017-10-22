@@ -3,10 +3,11 @@ import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import hoistStatics from "hoist-non-react-statics";
+import { Map } from "immutable";
 import { hide, destroy } from "./actions";
 import { getDisplayName, isPromise, isUndefined } from "./utils";
 
-const INITIAL_MODAL_STATE = {};
+const INITIAL_MODAL_STATE = Map();
 
 export default function connectModal({ name, resolve, destroyOnHide = true }) {
   return WrappedComponent => {
@@ -89,7 +90,7 @@ export default function connectModal({ name, resolve, destroyOnHide = true }) {
         return (
           <WrappedComponent
             {...ownProps}
-            {...modal.props}
+            {...modal.get("props")}
             show={show}
             handleHide={this.handleHide}
             handleDestroy={this.handleDestroy}
