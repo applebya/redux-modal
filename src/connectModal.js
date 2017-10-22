@@ -102,7 +102,7 @@ export default function connectModal({ name, resolve, destroyOnHide = true }) {
 
     return connect(
       state => ({
-        modal: state.modal[name] || INITIAL_MODAL_STATE
+        modal: state.getIn(["modal", name]) || INITIAL_MODAL_STATE
       }),
       dispatch => ({ ...bindActionCreators({ hide, destroy }, dispatch) })
     )(hoistStatics(ConnectModal, WrappedComponent));
